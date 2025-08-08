@@ -1,0 +1,16 @@
+PODS:
+  - GGGesturePasswordView (0.1.0)
+
+DEPENDENCIES:
+  - GGGesturePasswordView (from `../`)
+
+EXTERNAL SOURCES:
+  GGGesturePasswordView:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  GGGesturePasswordView: 0766bd99066bfd6050999e6bf2f06a9be7232dcc
+
+PODFILE CHECKSUM: 6834d839c52aaaf89dbc4223f041b27871a5fe59
+
+COCOAPODS: 1.15.2

@@ -1,0 +1,13 @@
+use_frameworks!
+
+platform :ios, '10.0'
+
+target 'GGGesturePasswordView_Example' do
+  pod 'GGGesturePasswordView', :path => '../'
+
+  target 'GGGesturePasswordView_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
