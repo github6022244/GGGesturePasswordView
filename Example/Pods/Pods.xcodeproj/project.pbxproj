@@ -7,39 +7,37 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		07D62A6B7E887080EDD719FBD7216812 /* gesture_node_error.imageset in Resources */ = {isa = PBXBuildFile; fileRef = 0FCBF722F23B750FD7DAE11C21B61507 /* gesture_node_error.imageset */; };
-		104B4DFCAC2A1CEE8F020EF76F914BEC /* gesture_node_normal.imageset in Resources */ = {isa = PBXBuildFile; fileRef = 275BAA219251C8DF94791CCD70B8D7D1 /* gesture_node_normal.imageset */; };
-		1F38C66EC431CDE757674C2D4CF36D27 /* gesture_node_highlighted.imageset in Resources */ = {isa = PBXBuildFile; fileRef = 8EE43220764C9EE4E147C5A4D5069B1B /* gesture_node_highlighted.imageset */; };
 		2BF1B65CC8F2E4382720D1FA849FA4C9 /* Pods-GGGesturePasswordView_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = F25CB695D65B002F034D9149E3CD20B5 /* Pods-GGGesturePasswordView_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2DC177354A1755BFF310B50BEB1C618E /* Pods-GGGesturePasswordView_Example-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 9060E4C954CE437042B4BBCA25BB7A9B /* Pods-GGGesturePasswordView_Example-dummy.m */; };
 		36531C5F8F177829504A34D1065CD353 /* GGGesturePasswordView-GGGesturePasswordView in Resources */ = {isa = PBXBuildFile; fileRef = 4DB899DE9526450AFA2D9A42D017384D /* GGGesturePasswordView-GGGesturePasswordView */; };
 		3D5110677BD7730EB126B54EC425FB4E /* Pods-GGGesturePasswordView_Tests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 83CA69C32D9CD04DAF86C935176A770C /* Pods-GGGesturePasswordView_Tests-dummy.m */; };
 		7EC42FF20E9C61E6F11BE3C1B747A117 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 384DDA2CB25005BD6479B5987C619DD4 /* Foundation.framework */; };
-		875489AEE0B699AE8CEB163B693974D1 /* GGGesturePasswordView.m in Sources */ = {isa = PBXBuildFile; fileRef = ED01E674D8D517C64C52C09A89D38665 /* GGGesturePasswordView.m */; };
+		875489AEE0B699AE8CEB163B693974D1 /* GGGesturePasswordView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C3539E3826B01881316C65DE82944D /* GGGesturePasswordView.m */; };
 		9A8ADB71E6FBD907903E6508D267BA75 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 384DDA2CB25005BD6479B5987C619DD4 /* Foundation.framework */; };
 		AD5A56DE7829B3DED4459AD6761C8192 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 384DDA2CB25005BD6479B5987C619DD4 /* Foundation.framework */; };
-		B31A45E666BA48050678C4F16B0C4D81 /* GGGesturePasswordView.h in Headers */ = {isa = PBXBuildFile; fileRef = 79268F92E3CF478F0327E60E46E0E9B1 /* GGGesturePasswordView.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C1A4C6FC08001F07126EA6155762AB6D /* GGGesturePasswordView-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 06166D93A4275990E74E5642265B853B /* GGGesturePasswordView-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		DD114B5169516A07083584565975751A /* GGGesturePasswordView-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = A731FF4935EF712A3E971D30C5011993 /* GGGesturePasswordView-dummy.m */; };
+		B31A45E666BA48050678C4F16B0C4D81 /* GGGesturePasswordView.h in Headers */ = {isa = PBXBuildFile; fileRef = 9067F5524286A7E87E7E2314365E0A31 /* GGGesturePasswordView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C1A4C6FC08001F07126EA6155762AB6D /* GGGesturePasswordView-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 7CDF55DC3CD7364076F844700A10A4B1 /* GGGesturePasswordView-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D651B24C9EA823474DD4AAF3201DF8FD /* Icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 055FEDC004CFFA46D1AFFD11A36A1CD1 /* Icons.xcassets */; };
+		DD114B5169516A07083584565975751A /* GGGesturePasswordView-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D74480A51DA83290FFAA23BD0310DF6 /* GGGesturePasswordView-dummy.m */; };
 		F5A38059FDB0E4284D097E7F97E053A3 /* Pods-GGGesturePasswordView_Example-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = EF3838EFC137147897CE7890E01C9460 /* Pods-GGGesturePasswordView_Example-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		8043676E60710BB617F19B13951B47DD /* PBXContainerItemProxy */ = {
+		0AA60CAD7AB9F0E31C1C89863D9B6BB7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = BFE8EC0B7E7B3DB420D8AD267103B27E;
 			remoteInfo = "Pods-GGGesturePasswordView_Example";
 		};
-		8189E529E1D3AC6CDF22F07A8A7F8814 /* PBXContainerItemProxy */ = {
+		3AB94BF454164769A1B6ADD9654798AB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 1DDE14D637100912E1B61E9211F67FF3;
 			remoteInfo = GGGesturePasswordView;
 		};
-		EA1BDD51CC3E180DBD4F173DFF4EC22B /* PBXContainerItemProxy */ = {
+		7E88017ED8CF69CF127BD263C2210A8E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
@@ -50,43 +48,41 @@
 
 /* Begin PBXFileReference section */
 		011AA5D1C5E496C6233D0FE7B9507F3B /* Pods-GGGesturePasswordView_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-GGGesturePasswordView_Tests.release.xcconfig"; sourceTree = "<group>"; };
-		06166D93A4275990E74E5642265B853B /* GGGesturePasswordView-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "GGGesturePasswordView-umbrella.h"; sourceTree = "<group>"; };
-		0FCBF722F23B750FD7DAE11C21B61507 /* gesture_node_error.imageset */ = {isa = PBXFileReference; includeInIndex = 1; name = gesture_node_error.imageset; path = GGGesturePasswordView/Assets/gesture_node_error.imageset; sourceTree = "<group>"; };
+		04D282A83684061AD49EDCAB4415210C /* GGGesturePasswordView.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = GGGesturePasswordView.debug.xcconfig; sourceTree = "<group>"; };
+		055FEDC004CFFA46D1AFFD11A36A1CD1 /* Icons.xcassets */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder.assetcatalog; name = Icons.xcassets; path = GGGesturePasswordView/Assets/Icons.xcassets; sourceTree = "<group>"; };
 		178BD2061B74AFFD11F5C593C7D9F07C /* Pods-GGGesturePasswordView_Tests-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-GGGesturePasswordView_Tests-Info.plist"; sourceTree = "<group>"; };
-		275BAA219251C8DF94791CCD70B8D7D1 /* gesture_node_normal.imageset */ = {isa = PBXFileReference; includeInIndex = 1; name = gesture_node_normal.imageset; path = GGGesturePasswordView/Assets/gesture_node_normal.imageset; sourceTree = "<group>"; };
+		2BFE5EA927A130FB33248D99D99FCF2C /* ResourceBundle-GGGesturePasswordView-GGGesturePasswordView-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "ResourceBundle-GGGesturePasswordView-GGGesturePasswordView-Info.plist"; sourceTree = "<group>"; };
 		2CF270B68F54A064A6D32459D0B13EDF /* Pods-GGGesturePasswordView_Example */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-GGGesturePasswordView_Example"; path = Pods_GGGesturePasswordView_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		384DDA2CB25005BD6479B5987C619DD4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		386088A20338C1CFA40A5092CFDE3254 /* Pods-GGGesturePasswordView_Tests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-GGGesturePasswordView_Tests-acknowledgements.plist"; sourceTree = "<group>"; };
 		407033CED3007F0355AF7EE0B99D567D /* Pods-GGGesturePasswordView_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-GGGesturePasswordView_Tests.debug.xcconfig"; sourceTree = "<group>"; };
+		4268C374FD43525DC6E031C2A55251AE /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; path = README.md; sourceTree = "<group>"; };
 		47A88EED4BE6F313414744C060D3FCCE /* Pods-GGGesturePasswordView_Tests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-GGGesturePasswordView_Tests-acknowledgements.markdown"; sourceTree = "<group>"; };
+		4D74480A51DA83290FFAA23BD0310DF6 /* GGGesturePasswordView-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "GGGesturePasswordView-dummy.m"; sourceTree = "<group>"; };
 		4DB899DE9526450AFA2D9A42D017384D /* GGGesturePasswordView-GGGesturePasswordView */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = "GGGesturePasswordView-GGGesturePasswordView"; path = GGGesturePasswordView.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
-		5A404E54ADB0F3975E90A2FDA9B3CE54 /* GGGesturePasswordView.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = GGGesturePasswordView.release.xcconfig; sourceTree = "<group>"; };
 		60305CFAB2A769FCC20BDD0C359BB302 /* GGGesturePasswordView */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = GGGesturePasswordView; path = GGGesturePasswordView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		636797A29D70A38E0FA3749A8722FFD3 /* Pods-GGGesturePasswordView_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-GGGesturePasswordView_Example.release.xcconfig"; sourceTree = "<group>"; };
 		708463883F560D1709D87DAD02DCF313 /* Pods-GGGesturePasswordView_Example-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-GGGesturePasswordView_Example-Info.plist"; sourceTree = "<group>"; };
-		79268F92E3CF478F0327E60E46E0E9B1 /* GGGesturePasswordView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GGGesturePasswordView.h; path = GGGesturePasswordView/Classes/GGGesturePasswordView.h; sourceTree = "<group>"; };
-		79745DF49BF9BDBA717189B91E74328C /* GGGesturePasswordView.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = GGGesturePasswordView.debug.xcconfig; sourceTree = "<group>"; };
 		7ADC075E5081A901C9E2DE7E39002136 /* Pods-GGGesturePasswordView_Tests */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-GGGesturePasswordView_Tests"; path = Pods_GGGesturePasswordView_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7CDF55DC3CD7364076F844700A10A4B1 /* GGGesturePasswordView-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "GGGesturePasswordView-umbrella.h"; sourceTree = "<group>"; };
 		7F9D9C4EDF7AD93C827E9C11E8EEE93A /* Pods-GGGesturePasswordView_Example-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-GGGesturePasswordView_Example-acknowledgements.markdown"; sourceTree = "<group>"; };
-		839217D58CEF0334E9FBA33D4B5A3374 /* GGGesturePasswordView.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; path = GGGesturePasswordView.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		83CA69C32D9CD04DAF86C935176A770C /* Pods-GGGesturePasswordView_Tests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-GGGesturePasswordView_Tests-dummy.m"; sourceTree = "<group>"; };
-		8CA7B6098D9003488AF456393726E71B /* GGGesturePasswordView-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "GGGesturePasswordView-Info.plist"; sourceTree = "<group>"; };
-		8EE43220764C9EE4E147C5A4D5069B1B /* gesture_node_highlighted.imageset */ = {isa = PBXFileReference; includeInIndex = 1; name = gesture_node_highlighted.imageset; path = GGGesturePasswordView/Assets/gesture_node_highlighted.imageset; sourceTree = "<group>"; };
+		89C3539E3826B01881316C65DE82944D /* GGGesturePasswordView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = GGGesturePasswordView.m; path = GGGesturePasswordView/Classes/GGGesturePasswordView.m; sourceTree = "<group>"; };
 		9060E4C954CE437042B4BBCA25BB7A9B /* Pods-GGGesturePasswordView_Example-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-GGGesturePasswordView_Example-dummy.m"; sourceTree = "<group>"; };
+		9067F5524286A7E87E7E2314365E0A31 /* GGGesturePasswordView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GGGesturePasswordView.h; path = GGGesturePasswordView/Classes/GGGesturePasswordView.h; sourceTree = "<group>"; };
 		937B6E83AABE87476E1BE5A5D41D3620 /* Pods-GGGesturePasswordView_Example-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-GGGesturePasswordView_Example-acknowledgements.plist"; sourceTree = "<group>"; };
 		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		A731FF4935EF712A3E971D30C5011993 /* GGGesturePasswordView-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "GGGesturePasswordView-dummy.m"; sourceTree = "<group>"; };
 		ACF423A2A7B81A38AB3139D68238B87C /* Pods-GGGesturePasswordView_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-GGGesturePasswordView_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		B55D60D8A6C34BC9095B3F57763DBCCB /* Pods-GGGesturePasswordView_Example.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-GGGesturePasswordView_Example.modulemap"; sourceTree = "<group>"; };
-		B65C37C5E731238F22ABF239A903AD31 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; path = README.md; sourceTree = "<group>"; };
-		CD6C5416286FD54DDC147ABD0871DFF4 /* GGGesturePasswordView.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = GGGesturePasswordView.modulemap; sourceTree = "<group>"; };
-		D88D542FCC7E720FBE23D32076ECC716 /* ResourceBundle-GGGesturePasswordView-GGGesturePasswordView-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "ResourceBundle-GGGesturePasswordView-GGGesturePasswordView-Info.plist"; sourceTree = "<group>"; };
+		BF0AC04F1E6A4BCC1FECD83513DED1B9 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; path = LICENSE; sourceTree = "<group>"; };
+		D21C2071AB34117F5AC39F7057655139 /* GGGesturePasswordView-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "GGGesturePasswordView-Info.plist"; sourceTree = "<group>"; };
+		D905160A4D786F6D8E058379F9C3BBA3 /* GGGesturePasswordView.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = GGGesturePasswordView.release.xcconfig; sourceTree = "<group>"; };
 		DB16A9DBC86D07C00A86520C32B1CDCD /* Pods-GGGesturePasswordView_Tests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-GGGesturePasswordView_Tests.modulemap"; sourceTree = "<group>"; };
 		DFE24AC381123C983E7D5150558425F8 /* Pods-GGGesturePasswordView_Example-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-GGGesturePasswordView_Example-frameworks.sh"; sourceTree = "<group>"; };
-		ED01E674D8D517C64C52C09A89D38665 /* GGGesturePasswordView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = GGGesturePasswordView.m; path = GGGesturePasswordView/Classes/GGGesturePasswordView.m; sourceTree = "<group>"; };
-		EF013E7FDC67D37E4EFD734B59F7EE78 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; path = LICENSE; sourceTree = "<group>"; };
+		E18E40A02B6E488923F9CA9E0F38B36D /* GGGesturePasswordView.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = GGGesturePasswordView.modulemap; sourceTree = "<group>"; };
+		E4D38BD3259C6151A6C0F8A52E92C84F /* GGGesturePasswordView.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; path = GGGesturePasswordView.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		E75C49DEBAAA126D9CA66387FB5B969B /* GGGesturePasswordView-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "GGGesturePasswordView-prefix.pch"; sourceTree = "<group>"; };
 		EF3838EFC137147897CE7890E01C9460 /* Pods-GGGesturePasswordView_Example-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-GGGesturePasswordView_Example-umbrella.h"; sourceTree = "<group>"; };
-		F130B81190B4BADDA1EEE7FD32EC75C2 /* GGGesturePasswordView-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "GGGesturePasswordView-prefix.pch"; sourceTree = "<group>"; };
 		F25CB695D65B002F034D9149E3CD20B5 /* Pods-GGGesturePasswordView_Tests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-GGGesturePasswordView_Tests-umbrella.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -115,7 +111,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		FD54B024623CF2B1BB1136E32EB2C05E /* Frameworks */ = {
+		9FB1944F1C3F7F3684BEFC91E72A57CB /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -125,37 +121,51 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		194C7482D5CC833E1C2903837B0983A0 /* Pod */ = {
+		0DCF9CC02D5F1C03FC37984D909DA982 /* Development Pods */ = {
 			isa = PBXGroup;
 			children = (
-				839217D58CEF0334E9FBA33D4B5A3374 /* GGGesturePasswordView.podspec */,
-				EF013E7FDC67D37E4EFD734B59F7EE78 /* LICENSE */,
-				B65C37C5E731238F22ABF239A903AD31 /* README.md */,
-			);
-			name = Pod;
-			sourceTree = "<group>";
-		};
-		4A299583392A599E4AE83ACC65E57EBA /* Development Pods */ = {
-			isa = PBXGroup;
-			children = (
-				6B7FEF80099E9BFC52F10F36B376C789 /* GGGesturePasswordView */,
+				2EFD4CCE3A553BDEEB1734A6005D0B3C /* GGGesturePasswordView */,
 			);
 			name = "Development Pods";
 			sourceTree = "<group>";
 		};
-		6B7FEF80099E9BFC52F10F36B376C789 /* GGGesturePasswordView */ = {
+		2EFD4CCE3A553BDEEB1734A6005D0B3C /* GGGesturePasswordView */ = {
 			isa = PBXGroup;
 			children = (
-				0FCBF722F23B750FD7DAE11C21B61507 /* gesture_node_error.imageset */,
-				8EE43220764C9EE4E147C5A4D5069B1B /* gesture_node_highlighted.imageset */,
-				275BAA219251C8DF94791CCD70B8D7D1 /* gesture_node_normal.imageset */,
-				79268F92E3CF478F0327E60E46E0E9B1 /* GGGesturePasswordView.h */,
-				ED01E674D8D517C64C52C09A89D38665 /* GGGesturePasswordView.m */,
-				194C7482D5CC833E1C2903837B0983A0 /* Pod */,
-				B02F4B46B9C5041CBDCB426D22C514B4 /* Support Files */,
+				9067F5524286A7E87E7E2314365E0A31 /* GGGesturePasswordView.h */,
+				89C3539E3826B01881316C65DE82944D /* GGGesturePasswordView.m */,
+				055FEDC004CFFA46D1AFFD11A36A1CD1 /* Icons.xcassets */,
+				7DBE43BB5F4E83122D114D3D9EA396C7 /* Pod */,
+				572C39960F4EBAF0E274D60B2CA1207F /* Support Files */,
 			);
 			name = GGGesturePasswordView;
 			path = ../..;
+			sourceTree = "<group>";
+		};
+		572C39960F4EBAF0E274D60B2CA1207F /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				E18E40A02B6E488923F9CA9E0F38B36D /* GGGesturePasswordView.modulemap */,
+				4D74480A51DA83290FFAA23BD0310DF6 /* GGGesturePasswordView-dummy.m */,
+				D21C2071AB34117F5AC39F7057655139 /* GGGesturePasswordView-Info.plist */,
+				E75C49DEBAAA126D9CA66387FB5B969B /* GGGesturePasswordView-prefix.pch */,
+				7CDF55DC3CD7364076F844700A10A4B1 /* GGGesturePasswordView-umbrella.h */,
+				04D282A83684061AD49EDCAB4415210C /* GGGesturePasswordView.debug.xcconfig */,
+				D905160A4D786F6D8E058379F9C3BBA3 /* GGGesturePasswordView.release.xcconfig */,
+				2BFE5EA927A130FB33248D99D99FCF2C /* ResourceBundle-GGGesturePasswordView-GGGesturePasswordView-Info.plist */,
+			);
+			name = "Support Files";
+			path = "Example/Pods/Target Support Files/GGGesturePasswordView";
+			sourceTree = "<group>";
+		};
+		7DBE43BB5F4E83122D114D3D9EA396C7 /* Pod */ = {
+			isa = PBXGroup;
+			children = (
+				E4D38BD3259C6151A6C0F8A52E92C84F /* GGGesturePasswordView.podspec */,
+				BF0AC04F1E6A4BCC1FECD83513DED1B9 /* LICENSE */,
+				4268C374FD43525DC6E031C2A55251AE /* README.md */,
+			);
+			name = Pod;
 			sourceTree = "<group>";
 		};
 		83531EFEF9DEA06A1628E187659D0791 /* Products */ = {
@@ -194,22 +204,6 @@
 			path = "Target Support Files/Pods-GGGesturePasswordView_Tests";
 			sourceTree = "<group>";
 		};
-		B02F4B46B9C5041CBDCB426D22C514B4 /* Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				CD6C5416286FD54DDC147ABD0871DFF4 /* GGGesturePasswordView.modulemap */,
-				A731FF4935EF712A3E971D30C5011993 /* GGGesturePasswordView-dummy.m */,
-				8CA7B6098D9003488AF456393726E71B /* GGGesturePasswordView-Info.plist */,
-				F130B81190B4BADDA1EEE7FD32EC75C2 /* GGGesturePasswordView-prefix.pch */,
-				06166D93A4275990E74E5642265B853B /* GGGesturePasswordView-umbrella.h */,
-				79745DF49BF9BDBA717189B91E74328C /* GGGesturePasswordView.debug.xcconfig */,
-				5A404E54ADB0F3975E90A2FDA9B3CE54 /* GGGesturePasswordView.release.xcconfig */,
-				D88D542FCC7E720FBE23D32076ECC716 /* ResourceBundle-GGGesturePasswordView-GGGesturePasswordView-Info.plist */,
-			);
-			name = "Support Files";
-			path = "Example/Pods/Target Support Files/GGGesturePasswordView";
-			sourceTree = "<group>";
-		};
 		C7D8F6B87D9FDB119B4F26248EC93A28 /* Pods-GGGesturePasswordView_Example */ = {
 			isa = PBXGroup;
 			children = (
@@ -231,7 +225,7 @@
 			isa = PBXGroup;
 			children = (
 				9D940727FF8FB9C785EB98E56350EF41 /* Podfile */,
-				4A299583392A599E4AE83ACC65E57EBA /* Development Pods */,
+				0DCF9CC02D5F1C03FC37984D909DA982 /* Development Pods */,
 				D210D550F4EA176C3123ED886F8F87F5 /* Frameworks */,
 				83531EFEF9DEA06A1628E187659D0791 /* Products */,
 				9D9EFC9A949B172D04A5C2D07D6430DA /* Targets Support Files */,
@@ -297,7 +291,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				BEA1DD117E6327C30DF0D12B2FD90571 /* PBXTargetDependency */,
+				59CC3E469B9327C08CD1EE82008A22E4 /* PBXTargetDependency */,
 			);
 			name = GGGesturePasswordView;
 			productName = GGGesturePasswordView;
@@ -306,11 +300,11 @@
 		};
 		4F11D133DAB390680C64381FE6678EF1 /* GGGesturePasswordView-GGGesturePasswordView */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = E8014D11BD982D259C5F0F88EB63468D /* Build configuration list for PBXNativeTarget "GGGesturePasswordView-GGGesturePasswordView" */;
+			buildConfigurationList = 398BBF0F7D59A14A150F8100379753BB /* Build configuration list for PBXNativeTarget "GGGesturePasswordView-GGGesturePasswordView" */;
 			buildPhases = (
-				1470A49D69A8E31FEABD30E2B1279845 /* Sources */,
-				FD54B024623CF2B1BB1136E32EB2C05E /* Frameworks */,
-				43BEE84C657E38A45351BA16BEF2F912 /* Resources */,
+				4F87C752D72FCA4D2BB3D235F8B6A6E7 /* Sources */,
+				9FB1944F1C3F7F3684BEFC91E72A57CB /* Frameworks */,
+				B184F938152FA3B2D3B9B168EF60814B /* Resources */,
 			);
 			buildRules = (
 			);
@@ -333,7 +327,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				5C09E9E4FC43738D7238B1D96D642A7D /* PBXTargetDependency */,
+				BDA438B0F1C965689DC92A49D5B51576 /* PBXTargetDependency */,
 			);
 			name = "Pods-GGGesturePasswordView_Example";
 			productName = Pods_GGGesturePasswordView_Example;
@@ -352,7 +346,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				F0B5FA3CA30276DE7FB46AC381497A05 /* PBXTargetDependency */,
+				D30DCEEE4F78FE36581C92C1A490CF4F /* PBXTargetDependency */,
 			);
 			name = "Pods-GGGesturePasswordView_Tests";
 			productName = Pods_GGGesturePasswordView_Tests;
@@ -407,13 +401,11 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		43BEE84C657E38A45351BA16BEF2F912 /* Resources */ = {
+		B184F938152FA3B2D3B9B168EF60814B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				07D62A6B7E887080EDD719FBD7216812 /* gesture_node_error.imageset in Resources */,
-				1F38C66EC431CDE757674C2D4CF36D27 /* gesture_node_highlighted.imageset in Resources */,
-				104B4DFCAC2A1CEE8F020EF76F914BEC /* gesture_node_normal.imageset in Resources */,
+				D651B24C9EA823474DD4AAF3201DF8FD /* Icons.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -427,7 +419,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		1470A49D69A8E31FEABD30E2B1279845 /* Sources */ = {
+		4F87C752D72FCA4D2BB3D235F8B6A6E7 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -462,23 +454,23 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		5C09E9E4FC43738D7238B1D96D642A7D /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = GGGesturePasswordView;
-			target = 1DDE14D637100912E1B61E9211F67FF3 /* GGGesturePasswordView */;
-			targetProxy = 8189E529E1D3AC6CDF22F07A8A7F8814 /* PBXContainerItemProxy */;
-		};
-		BEA1DD117E6327C30DF0D12B2FD90571 /* PBXTargetDependency */ = {
+		59CC3E469B9327C08CD1EE82008A22E4 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "GGGesturePasswordView-GGGesturePasswordView";
 			target = 4F11D133DAB390680C64381FE6678EF1 /* GGGesturePasswordView-GGGesturePasswordView */;
-			targetProxy = EA1BDD51CC3E180DBD4F173DFF4EC22B /* PBXContainerItemProxy */;
+			targetProxy = 7E88017ED8CF69CF127BD263C2210A8E /* PBXContainerItemProxy */;
 		};
-		F0B5FA3CA30276DE7FB46AC381497A05 /* PBXTargetDependency */ = {
+		BDA438B0F1C965689DC92A49D5B51576 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = GGGesturePasswordView;
+			target = 1DDE14D637100912E1B61E9211F67FF3 /* GGGesturePasswordView */;
+			targetProxy = 3AB94BF454164769A1B6ADD9654798AB /* PBXContainerItemProxy */;
+		};
+		D30DCEEE4F78FE36581C92C1A490CF4F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "Pods-GGGesturePasswordView_Example";
 			target = BFE8EC0B7E7B3DB420D8AD267103B27E /* Pods-GGGesturePasswordView_Example */;
-			targetProxy = 8043676E60710BB617F19B13951B47DD /* PBXContainerItemProxy */;
+			targetProxy = 0AA60CAD7AB9F0E31C1C89863D9B6BB7 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -625,6 +617,23 @@
 			};
 			name = Release;
 		};
+		6D4B69D74395F731910E63919DE63C77 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D905160A4D786F6D8E058379F9C3BBA3 /* GGGesturePasswordView.release.xcconfig */;
+			buildSettings = {
+				CODE_SIGNING_ALLOWED = NO;
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/GGGesturePasswordView";
+				IBSC_MODULE = GGGesturePasswordView;
+				INFOPLIST_FILE = "Target Support Files/GGGesturePasswordView/ResourceBundle-GGGesturePasswordView-GGGesturePasswordView-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				PRODUCT_NAME = GGGesturePasswordView;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Release;
+		};
 		7EE7A78859F657F6BEFC651185B43192 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -687,9 +696,26 @@
 			};
 			name = Release;
 		};
+		8F806B7DC374AC11565C7C8E65BCF681 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 04D282A83684061AD49EDCAB4415210C /* GGGesturePasswordView.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGNING_ALLOWED = NO;
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/GGGesturePasswordView";
+				IBSC_MODULE = GGGesturePasswordView;
+				INFOPLIST_FILE = "Target Support Files/GGGesturePasswordView/ResourceBundle-GGGesturePasswordView-GGGesturePasswordView-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				PRODUCT_NAME = GGGesturePasswordView;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Debug;
+		};
 		9A642EF12E2615678DE004864AF08642 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 79745DF49BF9BDBA717189B91E74328C /* GGGesturePasswordView.debug.xcconfig */;
+			baseConfigurationReference = 04D282A83684061AD49EDCAB4415210C /* GGGesturePasswordView.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -721,23 +747,6 @@
 				VERSION_INFO_PREFIX = "";
 			};
 			name = Debug;
-		};
-		B67D860BEBDCA247FFDA2714212D58A7 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5A404E54ADB0F3975E90A2FDA9B3CE54 /* GGGesturePasswordView.release.xcconfig */;
-			buildSettings = {
-				CODE_SIGNING_ALLOWED = NO;
-				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/GGGesturePasswordView";
-				IBSC_MODULE = GGGesturePasswordView;
-				INFOPLIST_FILE = "Target Support Files/GGGesturePasswordView/ResourceBundle-GGGesturePasswordView-GGGesturePasswordView-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				PRODUCT_NAME = GGGesturePasswordView;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				WRAPPER_EXTENSION = bundle;
-			};
-			name = Release;
 		};
 		D299434AB35E7FD6F7921C8EF24742FF /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -807,7 +816,7 @@
 		};
 		EA4BD453406454DE7B411C942057711C /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5A404E54ADB0F3975E90A2FDA9B3CE54 /* GGGesturePasswordView.release.xcconfig */;
+			baseConfigurationReference = D905160A4D786F6D8E058379F9C3BBA3 /* GGGesturePasswordView.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -841,23 +850,6 @@
 			};
 			name = Release;
 		};
-		FBAC9F25794B9C7CE7E89B1759146B75 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 79745DF49BF9BDBA717189B91E74328C /* GGGesturePasswordView.debug.xcconfig */;
-			buildSettings = {
-				CODE_SIGNING_ALLOWED = NO;
-				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/GGGesturePasswordView";
-				IBSC_MODULE = GGGesturePasswordView;
-				INFOPLIST_FILE = "Target Support Files/GGGesturePasswordView/ResourceBundle-GGGesturePasswordView-GGGesturePasswordView-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				PRODUCT_NAME = GGGesturePasswordView;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				WRAPPER_EXTENSION = bundle;
-			};
-			name = Debug;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -866,6 +858,15 @@
 			buildConfigurations = (
 				0805E55FC2FBD2E314B323020DC4FB67 /* Debug */,
 				3864FEE8656453D52F55F0B0A461AA6F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		398BBF0F7D59A14A150F8100379753BB /* Build configuration list for PBXNativeTarget "GGGesturePasswordView-GGGesturePasswordView" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8F806B7DC374AC11565C7C8E65BCF681 /* Debug */,
+				6D4B69D74395F731910E63919DE63C77 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -884,15 +885,6 @@
 			buildConfigurations = (
 				1F009D42ED603BC1B1FB088A08DC365D /* Debug */,
 				2FD4808BE2959DFF7E89B332D83D0C76 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		E8014D11BD982D259C5F0F88EB63468D /* Build configuration list for PBXNativeTarget "GGGesturePasswordView-GGGesturePasswordView" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				FBAC9F25794B9C7CE7E89B1759146B75 /* Debug */,
-				B67D860BEBDCA247FFDA2714212D58A7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

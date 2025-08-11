@@ -9,7 +9,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  GGGesturePasswordView: b6784eb4741db447880f3b729ef15cb2737abad0
+  GGGesturePasswordView: 3a6208705270183b8fb4b5c5b81a6d55dc0c1cad
 
 PODFILE CHECKSUM: 6834d839c52aaaf89dbc4223f041b27871a5fe59
 

@@ -714,12 +714,26 @@ static NSString *const kGGGestureErrorImageName = @"gesture_node_error";
 }
 
 #pragma mark - 加载资源
-- (UIImage *)gg_imageNamed:(NSString *)name {
-    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
-    NSURL *bundleURL = [bundle URLForResource:kGGGestureResourceBundleName withExtension:@"bundle"];
-    NSBundle *resourceBundle = [NSBundle bundleWithURL:bundleURL];
-    UIImage *image = [UIImage imageNamed:name inBundle:resourceBundle compatibleWithTraitCollection:nil];
-    return image?: [UIImage imageNamed:name];
+- (UIImage *)gg_imageNamed:(NSString *)imageName {
+    // 1. 获取组件的类所在的 bundle（即 pod 安装后的框架 bundle）
+    NSBundle *frameworkBundle = [NSBundle bundleForClass:[self class]];
+    
+    // 2. 从框架 bundle 中找到资源束（GGGesturePasswordView.bundle）
+    NSURL *resourceBundleURL = [frameworkBundle URLForResource:kGGGestureResourceBundleName
+                                                  withExtension:@"bundle"];
+    if (!resourceBundleURL) {
+        NSLog(@"%@ 未找到资源束 %@.bundle", kGGGestureLogPrefix, kGGGestureResourceBundleName);
+        return nil;
+    }
+    NSBundle *resourceBundle = [NSBundle bundleWithURL:resourceBundleURL];
+    
+    // 3. 从资源束中加载图片
+    // 注意：如果是 .xcassets 中的图片，直接传图片名（无需扩展名）
+    UIImage *image = [UIImage imageNamed:imageName
+                                 inBundle:resourceBundle
+            compatibleWithTraitCollection:nil];
+    
+    return image;
 }
 
 #pragma mark - Getters & Setters

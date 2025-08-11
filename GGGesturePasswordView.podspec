@@ -35,11 +35,12 @@ TODO: Add long description of the pod here.
   s.source_files = 'GGGesturePasswordView/Classes/**/*.{h,m}'
   
   s.resource_bundles = {
+    # 资源束名称，建议与组件名一致
     'GGGesturePasswordView' => [
-      'GGGesturePasswordView/Assets/*.png',  # 匹配所有png图片
-      'GGGesturePasswordView/Assets/*.jpg',   # 如果有jpg格式
-      'GGGesturePasswordView/Assets/*.xcassets',
-      'GGGesturePasswordView/Assets/*.imageset',
+      # 匹配普通图片（递归匹配 Assets 下所有子目录的 .png/.jpg）
+      'GGGesturePasswordView/Assets/**/*.{png,jpg,jpeg}',
+      # 匹配 Asset Catalog 资源（.xcassets 目录及其子目录）
+      'GGGesturePasswordView/Assets/**/*.xcassets'
     ]
   }
 
