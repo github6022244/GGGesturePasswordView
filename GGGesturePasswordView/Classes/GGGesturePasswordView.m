@@ -8,6 +8,13 @@ static const CGFloat kGGGesturePointDetectionRadiusScale = 1.2f;// 点的检测�
 static const CGFloat kGGGestureInnerCircleRadiusScale = 1.0f/6.0f;// 内圈半径相对于点大小的比例
 static const CGFloat kGGGestureDefaultErrorResetDelay = 0.5f;   // 错误状态自动重置的延迟时间（秒）
 
+// 字符串常量：抽取固定字符串便于统一管理
+static NSString *const kGGGestureLogPrefix = @"[GGGesturePasswordView]";
+static NSString *const kGGGestureResourceBundleName = @"GGGesturePasswordView";
+static NSString *const kGGGestureNormalImageName = @"gesture_node_normal";
+static NSString *const kGGGestureSelectedImageName = @"gesture_node_highlighted";
+static NSString *const kGGGestureErrorImageName = @"gesture_node_error";
+
 #pragma mark - 手势点模型定义
 /**
  手势点模型，用于存储单个点的位置、标识和选中状态
@@ -338,7 +345,7 @@ static const CGFloat kGGGestureDefaultErrorResetDelay = 0.5f;   // 错误状态�
  */
 - (NSString *)generatePasswordString {
     if (self.selectedPointsArray.count == 0) {
-        NSLog(@"[GesturePassword] 没有选中任何点，无法生成密码");
+        NSLog(@"%@ 没有选中任何点，无法生成密码", kGGGestureLogPrefix);
         return nil;
     }
     
@@ -601,20 +608,20 @@ static const CGFloat kGGGestureDefaultErrorResetDelay = 0.5f;   // 错误状态�
     
     // 非空校验
     if (!password) {
-        NSLog(@"[GesturePassword] 传入的密码为nil，无法显示手势");
+        NSLog(@"%@ 传入的密码为nil，无法显示手势", kGGGestureLogPrefix);
         return;
     }
     
     NSString *trimmedPassword = [password stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     if (trimmedPassword.length == 0) {
-        NSLog(@"[GesturePassword] 传入的密码为空或仅包含空白字符，无法显示手势");
+        NSLog(@"%@ 传入的密码为空或仅包含空白字符，无法显示手势", kGGGestureLogPrefix);
         return;
     }
     
     // 解析密码
     NSArray<NSString *> *tagStrings = [self parsePasswordString:trimmedPassword];
     if (tagStrings.count == 0) {
-        NSLog(@"[GesturePassword] 密码解析后没有有效点，无法显示手势");
+        NSLog(@"%@ 密码解析后没有有效点，无法显示手势", kGGGestureLogPrefix);
         return;
     }
     
@@ -652,11 +659,11 @@ static const CGFloat kGGGestureDefaultErrorResetDelay = 0.5f;   // 错误状态�
             if (trimmed.length > 0) {
                 [validComponents addObject:trimmed];
             } else {
-                NSLog(@"[GesturePassword] 密码中包含空项，已忽略");
+                NSLog(@"%@ 密码中包含空项，已忽略", kGGGestureLogPrefix);
             }
         }
         
-        NSLog(@"[GesturePassword] 解析逗号分隔格式密码，共 %lu 个有效项", (unsigned long)validComponents.count);
+        NSLog(@"%@ 解析逗号分隔格式密码，共 %lu 个有效项", kGGGestureLogPrefix, (unsigned long)validComponents.count);
         return validComponents;
     } else {
         NSMutableArray<NSString *> *components = [NSMutableArray array];
@@ -665,7 +672,7 @@ static const CGFloat kGGGestureDefaultErrorResetDelay = 0.5f;   // 错误状态�
             [components addObject:[NSString stringWithCharacters:&charCode length:1]];
         }
         
-        NSLog(@"[GesturePassword] 解析纯数字格式密码，共 %lu 个项", (unsigned long)components.count);
+        NSLog(@"%@ 解析纯数字格式密码，共 %lu 个项", kGGGestureLogPrefix, (unsigned long)components.count);
         return components;
     }
 }
@@ -682,7 +689,7 @@ static const CGFloat kGGGestureDefaultErrorResetDelay = 0.5f;   // 错误状态�
         
         // 验证范围
         if (tag < 1 || tag > kGGGestureTotalPointsCount) {
-            NSLog(@"[GesturePassword] 无效的点编号: %@ (必须在1-%ld之间)", tagStr, (long)kGGGestureTotalPointsCount);
+            NSLog(@"%@ 无效的点编号: %@ (必须在1-%ld之间)", kGGGestureLogPrefix, tagStr, (long)kGGGestureTotalPointsCount);
             continue;
         }
         
@@ -699,11 +706,20 @@ static const CGFloat kGGGestureDefaultErrorResetDelay = 0.5f;   // 错误状态�
         }
         
         if (!found) {
-            NSLog(@"[GesturePassword] 点 %ld 已被选中或不存在，已跳过", (long)tag);
+            NSLog(@"%@ 点 %ld 已被选中或不存在，已跳过", kGGGestureLogPrefix, (long)tag);
         }
     }
     
-    NSLog(@"[GesturePassword] 密码解析完成，有效点数量: %ld", (long)validCount);
+    NSLog(@"%@ 密码解析完成，有效点数量: %ld", kGGGestureLogPrefix, (long)validCount);
+}
+
+#pragma mark - 加载资源
+- (UIImage *)gg_imageNamed:(NSString *)name {
+    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+    NSURL *bundleURL = [bundle URLForResource:kGGGestureResourceBundleName withExtension:@"bundle"];
+    NSBundle *resourceBundle = [NSBundle bundleWithURL:bundleURL];
+    UIImage *image = [UIImage imageNamed:name inBundle:resourceBundle compatibleWithTraitCollection:nil];
+    return image?: [UIImage imageNamed:name];
 }
 
 #pragma mark - Getters & Setters
@@ -721,7 +737,7 @@ static const CGFloat kGGGestureDefaultErrorResetDelay = 0.5f;   // 错误状态�
  */
 - (UIImage *)normalButtonImage {
     if (!_normalButtonImage) {
-        _normalButtonImage = [UIImage imageNamed:@"gesture_node_normal"];
+        _normalButtonImage = [self gg_imageNamed:kGGGestureNormalImageName];
     }
     return _normalButtonImage;
 }
@@ -732,7 +748,7 @@ static const CGFloat kGGGestureDefaultErrorResetDelay = 0.5f;   // 错误状态�
  */
 - (UIImage *)selectedButtonImage {
     if (!_selectedButtonImage) {
-        _selectedButtonImage = [UIImage imageNamed:@"gesture_node_highlighted"];
+        _selectedButtonImage = [self gg_imageNamed:kGGGestureSelectedImageName];
     }
     return _selectedButtonImage;
 }
@@ -743,7 +759,7 @@ static const CGFloat kGGGestureDefaultErrorResetDelay = 0.5f;   // 错误状态�
  */
 - (UIImage *)disableButtonImage {
     if (!_disableButtonImage) {
-        _disableButtonImage = [UIImage imageNamed:@"gesture_node_error"];
+        _disableButtonImage = [self gg_imageNamed:kGGGestureErrorImageName];
     }
     return _disableButtonImage;
 }

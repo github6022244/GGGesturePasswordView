@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'GGGesturePasswordView'
-  s.version          = '0.1.1'
+  s.version          = '0.1.2'
   s.summary          = '这是一个9宫格手势解锁View'
 
 # This description is used to generate tags and improve search results.
@@ -34,9 +34,13 @@ TODO: Add long description of the pod here.
 
   s.source_files = 'GGGesturePasswordView/Classes/**/*.{h,m}'
   
-  # s.resource_bundles = {
-  #   'GGGesturePasswordView' => ['GGGesturePasswordView/Assets/*.png']
-  # }
+  s.resource_bundles = {
+    'GGGesturePasswordView' => [
+      'GGGesturePasswordView/Assets/*.png',  # 匹配所有png图片
+      'GGGesturePasswordView/Assets/*.jpg',   # 如果有jpg格式
+      'GGGesturePasswordView/Assets/*.xcassets'
+    ]
+  }
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'

@@ -31,7 +31,7 @@
     self.gestureView.maxNodeCount = 6;
     
     // 修复图片处理错误：添加图片存在性检查和尺寸适配
-    [self setupGestureImages];
+//    [self setupGestureImages];
 }
 
 - (void)setupGestureImages {
