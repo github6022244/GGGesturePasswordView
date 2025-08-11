@@ -29,8 +29,10 @@ TODO: Add long description of the pod here.
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.ios.deployment_target = '13.0'
+  
+  s.exclude_files = "Classes/Exclude"  # 仅排除无关文件
 
-  s.source_files = 'GGGesturePasswordView/Classes/**/*'
+  s.source_files = 'GGGesturePasswordView/Classes/**/*.{h,m}'
   
   # s.resource_bundles = {
   #   'GGGesturePasswordView' => ['GGGesturePasswordView/Assets/*.png']
