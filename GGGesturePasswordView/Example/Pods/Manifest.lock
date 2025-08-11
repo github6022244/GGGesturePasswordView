@@ -1,5 +1,5 @@
 PODS:
-  - GGGesturePasswordView (0.1.0)
+  - GGGesturePasswordView (0.1.1)
 
 DEPENDENCIES:
   - GGGesturePasswordView (from `../`)
@@ -9,7 +9,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  GGGesturePasswordView: 0766bd99066bfd6050999e6bf2f06a9be7232dcc
+  GGGesturePasswordView: 1d2774f0c6189785c85afcd50f3e58d9d0d179a8
 
 PODFILE CHECKSUM: 6834d839c52aaaf89dbc4223f041b27871a5fe59
 

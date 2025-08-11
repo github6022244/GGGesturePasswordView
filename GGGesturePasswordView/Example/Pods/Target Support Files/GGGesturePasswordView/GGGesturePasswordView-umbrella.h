@@ -10,7 +10,7 @@
 #endif
 #endif
 
-#import "CXGGesturePasswordView.h"
+#import "GGGesturePasswordView.h"
 
 FOUNDATION_EXPORT double GGGesturePasswordViewVersionNumber;
 FOUNDATION_EXPORT const unsigned char GGGesturePasswordViewVersionString[];
