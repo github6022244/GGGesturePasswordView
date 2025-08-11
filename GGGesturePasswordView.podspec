@@ -38,7 +38,8 @@ TODO: Add long description of the pod here.
     'GGGesturePasswordView' => [
       'GGGesturePasswordView/Assets/*.png',  # 匹配所有png图片
       'GGGesturePasswordView/Assets/*.jpg',   # 如果有jpg格式
-      'GGGesturePasswordView/Assets/*.xcassets'
+      'GGGesturePasswordView/Assets/*.xcassets',
+      'GGGesturePasswordView/Assets/*.imageset',
     ]
   }
 
