@@ -412,7 +412,7 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		5E3809B6CA218BA25B900669171F4BA6 /* Debug */ = {
+		012622532470607106DF835BB62BACE1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 37D4B3A5FD6118709F7648A2950FE28F /* GGGesturePasswordView.debug.xcconfig */;
 			buildSettings = {
@@ -428,7 +428,7 @@
 				GCC_PREFIX_HEADER = "Target Support Files/GGGesturePasswordView/GGGesturePasswordView-prefix.pch";
 				INFOPLIST_FILE = "Target Support Files/GGGesturePasswordView/GGGesturePasswordView-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MODULEMAP_FILE = "Target Support Files/GGGesturePasswordView/GGGesturePasswordView.modulemap";
 				PRODUCT_MODULE_NAME = GGGesturePasswordView;
@@ -443,7 +443,7 @@
 			};
 			name = Debug;
 		};
-		5EB1B9286843949D48E8E2B5B3128D1A /* Release */ = {
+		55A4DC9950C4ED0084A217A35019F156 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 658F457B71D4354FAF1FDD402348958E /* GGGesturePasswordView.release.xcconfig */;
 			buildSettings = {
@@ -459,7 +459,7 @@
 				GCC_PREFIX_HEADER = "Target Support Files/GGGesturePasswordView/GGGesturePasswordView-prefix.pch";
 				INFOPLIST_FILE = "Target Support Files/GGGesturePasswordView/GGGesturePasswordView-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MODULEMAP_FILE = "Target Support Files/GGGesturePasswordView/GGGesturePasswordView.modulemap";
 				PRODUCT_MODULE_NAME = GGGesturePasswordView;
@@ -761,8 +761,8 @@
 		906E861AD6143D842BF3B0642B26AC93 /* Build configuration list for PBXNativeTarget "GGGesturePasswordView" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				5E3809B6CA218BA25B900669171F4BA6 /* Debug */,
-				5EB1B9286843949D48E8E2B5B3128D1A /* Release */,
+				012622532470607106DF835BB62BACE1 /* Debug */,
+				55A4DC9950C4ED0084A217A35019F156 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
