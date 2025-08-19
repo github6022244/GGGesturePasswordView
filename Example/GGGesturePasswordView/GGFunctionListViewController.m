@@ -85,7 +85,9 @@
         @{@"title": @"2. 验证手势密码", @"vcClass": @"GGVerifyPasswordViewController"},
         @{@"title": @"3. 自定义样式", @"vcClass": @"GGCustomStyleViewController"},
         @{@"title": @"4. 显示指定手势", @"vcClass": @"GGShowGestureViewController"},
-        @{@"title": @"5. 错误状态演示", @"vcClass": @"GGErrorStateViewController"}
+        @{@"title": @"5. 错误状态演示", @"vcClass": @"GGErrorStateViewController"},
+        @{@"title": @"5. 自动布局演示", @"vcClass": @"GGGestureAutoLayoutInitTestViewController"},
+        @{@"title": @"5. 适配横竖屏演示", @"vcClass": @"GGGestureOrientationAdaptTestViewController"},
     ];
 }
 
@@ -126,8 +128,8 @@
     
     // 反射获取视图控制器类
     Class vcClass = NSClassFromString(vcClassName);
-    if (vcClass && [vcClass isSubclassOfClass:[GGBaseDemoViewController class]]) {
-        GGBaseDemoViewController *vc = [[vcClass alloc] init];
+    if (vcClass) {
+        UIViewController *vc = [[vcClass alloc] init];
         vc.title = item[@"title"];
         [self.navigationController pushViewController:vc animated:YES];
     }
