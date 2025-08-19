@@ -7,6 +7,7 @@ static const NSInteger kGGGestureTotalPointsCount = 9;           // 手势点总
 static const CGFloat kGGGesturePointDetectionRadiusScale = 1.2f;// 点的检测半径缩放比例（扩大检测范围）
 static const CGFloat kGGGestureInnerCircleRadiusScale = 1.0f/6.0f;// 内圈半径相对于点大小的比例
 static const CGFloat kGGGestureDefaultErrorResetDelay = 0.5f;   // 错误状态自动重置的延迟时间（秒）
+static const CGFloat kGGGesturePathDetectionThreshold = 5.0f;   // 路径经过点的判定阈值（像素）
 
 // 字符串常量：抽取固定字符串便于统一管理
 static NSString *const kGGGestureLogPrefix = @"[GGGesturePasswordView]";
@@ -21,7 +22,7 @@ static NSString *const kGGGestureErrorImageName = @"gesture_node_error";
  */
 @interface GGGesturePoint : NSObject
 @property (nonatomic, assign) CGPoint center;   // 点的中心点坐标
-@property (nonatomic, assign) NSInteger tag;    // 点的标识（1-9）
+@property (nonatomic, assign) NSInteger tag;    // 点的标识（可配置起始值）
 @property (nonatomic, assign, getter=isSelected) BOOL selected; // 是否被选中
 @end
 
@@ -53,6 +54,30 @@ static NSString *const kGGGestureErrorImageName = @"gesture_node_error";
 @end
 
 @implementation GGGesturePasswordView
+
+#pragma mark - 公共属性
+@synthesize shouldSelectPointsOnPath = _shouldSelectPointsOnPath;
+@synthesize startTag = _startTag;
+
+- (void)setShouldSelectPointsOnPath:(BOOL)shouldSelectPointsOnPath {
+    _shouldSelectPointsOnPath = shouldSelectPointsOnPath;
+}
+
+- (BOOL)shouldSelectPointsOnPath {
+    return _shouldSelectPointsOnPath;
+}
+
+- (void)setStartTag:(NSInteger)startTag {
+    if (_startTag != startTag) {
+        _startTag = startTag;
+        [self setupPoints]; // 重新设置点的tag
+        [self setNeedsDisplay];
+    }
+}
+
+- (NSInteger)startTag {
+    return _startTag ?: 1; // 默认起始值为1
+}
 
 #pragma mark - 初始化方法
 - (instancetype)init {
@@ -88,7 +113,7 @@ static NSString *const kGGGestureErrorImageName = @"gesture_node_error";
     // 启用用户交互（手势需要触摸事件）
     self.userInteractionEnabled = YES;
     
-    // 监听设备旋转通知，使用更可靠的状态栏方向变化通知
+    // 监听设备旋转通知
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(statusBarOrientationDidChange:)
                                                  name:UIApplicationDidChangeStatusBarOrientationNotification
@@ -160,6 +185,8 @@ static NSString *const kGGGestureErrorImageName = @"gesture_node_error";
     self.hasValidStartPoint = NO;  // 初始无有效起始点
     self.maxNodeCount = kGGGestureTotalPointsCount; // 默认最大连接数为总点数
     self.hasCompletedInitialLayout = NO;
+    self.shouldSelectPointsOnPath = NO; // 默认不自动选中路径点
+    self.startTag = 1; // 默认起始标签为1
     
     // 初始化数组（指定容量提升性能）
     self.pointsArray = [NSMutableArray arrayWithCapacity:kGGGestureTotalPointsCount];
@@ -189,8 +216,8 @@ static NSString *const kGGGestureErrorImageName = @"gesture_node_error";
     // 创建9个点（3行3列）
     for (NSInteger i = 0; i < kGGGestureTotalPointsCount; i++) {
         GGGesturePoint *point = [[GGGesturePoint alloc] init];
-        point.tag = i + 1;       // 标签从1开始（1-9）
-        point.selected = NO;     // 初始未选中
+        point.tag = i + self.startTag;  // 基于startTag计算标签
+        point.selected = NO;            // 初始未选中
         
         // 计算行列位置（0-2行，0-2列）
         NSInteger row = i / 3;
@@ -314,21 +341,18 @@ static NSString *const kGGGestureErrorImageName = @"gesture_node_error";
     // 更新当前触摸点坐标
     self.currentPoint = point;
     
-    // 只有在未达到最大连接数时才检查新点
+    // 1. 处理直接触摸选中的点
     if (self.selectedPointsArray.count < self.maxNodeCount) {
-        GGGesturePoint *selectedPoint = [self pointContainingPoint:self.currentPoint];
-        if (selectedPoint && !selectedPoint.selected) {
-            selectedPoint.selected = YES;
-            [self.selectedPointsArray addObject:selectedPoint];
-            
-            // 检查是否达到最大连接数，如果是则结束手势
-            if (self.selectedPointsArray.count == self.maxNodeCount) {
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                    [self touchesEnded:touches withEvent:event];
-                    return;
-                });
-            }
+        GGGesturePoint *directlyTouchedPoint = [self pointContainingPoint:point];
+        if (directlyTouchedPoint && !directlyTouchedPoint.selected) {
+            [self selectPoint:directlyTouchedPoint];
         }
+    }
+    
+    // 2. 若开启路径选点，检测路径经过的点
+    if (self.shouldSelectPointsOnPath && self.selectedPointsArray.count > 0) {
+        GGGesturePoint *lastSelectedPoint = self.selectedPointsArray.lastObject;
+        [self detectAndSelectPointsOnPathFrom:lastSelectedPoint.center to:point];
     }
     
     [self setNeedsDisplay];
@@ -373,6 +397,79 @@ static NSString *const kGGGestureErrorImageName = @"gesture_node_error";
     }
 }
 
+#pragma mark - 路径选点逻辑
+/**
+ 检测并选中路径经过的点
+ */
+- (void)detectAndSelectPointsOnPathFrom:(CGPoint)start to:(CGPoint)end {
+    // 遍历所有未选中的点，判断是否在start到end的路径上
+    for (GGGesturePoint *point in self.pointsArray) {
+        if (point.selected) continue; // 跳过已选中的点
+        
+        // 计算点到线段（start到end）的距离
+        CGFloat distance = [self distanceFromPoint:point.center toLineSegmentStart:start end:end];
+        
+        // 若距离小于阈值，且点在线段的「合理范围内」（避免误判线段延长线上的点）
+        if (distance <= kGGGesturePathDetectionThreshold &&
+            [self isPoint:point.center onLineSegmentBetween:start and:end]) {
+            
+            [self selectPoint:point];
+            // 若已达最大选点数量，停止检测
+            if (self.selectedPointsArray.count >= self.maxNodeCount) break;
+        }
+    }
+}
+
+/**
+ 选中点并更新状态
+ */
+- (void)selectPoint:(GGGesturePoint *)point {
+    point.selected = YES;
+    [self.selectedPointsArray addObject:point];
+    // 若达最大数量，延迟结束触摸
+    if (self.selectedPointsArray.count == self.maxNodeCount) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self touchesEnded:nil withEvent:nil];
+        });
+    }
+}
+
+/**
+ 几何计算：点到线段的距离
+ */
+- (CGFloat)distanceFromPoint:(CGPoint)p toLineSegmentStart:(CGPoint)a end:(CGPoint)b {
+    CGFloat abX = b.x - a.x;
+    CGFloat abY = b.y - a.y;
+    CGFloat apX = p.x - a.x;
+    CGFloat apY = p.y - a.y;
+    
+    // 计算向量点积
+    CGFloat dot = apX * abX + apY * abY;
+    if (dot <= 0) return hypot(apX, apY); // 点在a的外侧，距离为p到a
+    
+    CGFloat abLen2 = abX * abX + abY * abY;
+    if (dot >= abLen2) return hypot(p.x - b.x, p.y - b.y); // 点在b的外侧，距离为p到b
+    
+    // 点在线段上的投影
+    CGFloat t = dot / abLen2;
+    CGFloat projX = a.x + t * abX;
+    CGFloat projY = a.y + t * abY;
+    return hypot(p.x - projX, p.y - projY);
+}
+
+/**
+ 几何计算：判断点是否在线段的两个端点之间（避免延长线误判）
+ */
+- (BOOL)isPoint:(CGPoint)p onLineSegmentBetween:(CGPoint)a and:(CGPoint)b {
+    // 检查x坐标范围
+    BOOL isXBetween = (p.x >= MIN(a.x, b.x) - kGGGesturePathDetectionThreshold) &&
+                      (p.x <= MAX(a.x, b.x) + kGGGesturePathDetectionThreshold);
+    // 检查y坐标范围
+    BOOL isYBetween = (p.y >= MIN(a.y, b.y) - kGGGesturePathDetectionThreshold) &&
+                      (p.y <= MAX(a.y, b.y) + kGGGesturePathDetectionThreshold);
+    return isXBetween && isYBetween;
+}
+
 #pragma mark - 状态管理
 /**
  重置触摸相关状态（用于手势结束或取消时）
@@ -380,6 +477,21 @@ static NSString *const kGGGestureErrorImageName = @"gesture_node_error";
 - (void)resetTouchState {
     self.touching = NO;
     self.hasValidStartPoint = NO;
+}
+
+/**
+ 重置
+ */
+- (void)clearPassword {
+    [self.selectedPointsArray removeAllObjects];
+    for (GGGesturePoint *point in self.pointsArray) {
+        point.selected = NO;
+    }
+    self.inErrorState = NO;
+    [self.resetTimer invalidate];
+    self.resetTimer = nil;
+    [self resetTouchState];
+    [self setNeedsDisplay];
 }
 
 #pragma mark - 辅助方法
@@ -533,12 +645,45 @@ static NSString *const kGGGestureErrorImageName = @"gesture_node_error";
  */
 - (UIImage *)imageForPoint:(GGGesturePoint *)point {
     if (self.inErrorState) {
-        return self.disableButtonImage;
+        return self.disableButtonImage ?: [self defaultErrorImage];
     } else if (point.selected) {
-        return self.selectedButtonImage;
+        return self.selectedButtonImage ?: [self defaultSelectedImage];
     } else {
-        return self.normalButtonImage;
+        return self.normalButtonImage ?: [self defaultNormalImage];
     }
+}
+
+/**
+ 默认正常状态图片
+ */
+- (UIImage *)defaultNormalImage {
+    return [UIImage imageNamed:kGGGestureNormalImageName inBundle:[self resourceBundle] compatibleWithTraitCollection:nil];
+}
+
+/**
+ 默认选中状态图片
+ */
+- (UIImage *)defaultSelectedImage {
+    return [UIImage imageNamed:kGGGestureSelectedImageName inBundle:[self resourceBundle] compatibleWithTraitCollection:nil];
+}
+
+/**
+ 默认错误状态图片
+ */
+- (UIImage *)defaultErrorImage {
+    return [UIImage imageNamed:kGGGestureErrorImageName inBundle:[self resourceBundle] compatibleWithTraitCollection:nil];
+}
+
+/**
+ 获取资源bundle
+ */
+- (NSBundle *)resourceBundle {
+    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+    NSString *path = [bundle pathForResource:kGGGestureResourceBundleName ofType:@"bundle"];
+    if (path) {
+        return [NSBundle bundleWithPath:path];
+    }
+    return bundle;
 }
 
 /**
@@ -585,361 +730,43 @@ static NSString *const kGGGestureErrorImageName = @"gesture_node_error";
                                                            clockwise:YES];
     [fillColor setFill];
     [strokeColor setStroke];
-    outerCircle.lineWidth = 2.0f;
+    outerCircle.lineWidth = 1.0f;
     [outerCircle fill];
     [outerCircle stroke];
     
-    // 绘制内圈（选中或错误状态）
-    if (point.selected || self.inErrorState) {
+    // 绘制内圈（仅选中状态）
+    if (point.selected) {
+        CGFloat innerRadius = outerRadius * kGGGestureInnerCircleRadiusScale;
         UIBezierPath *innerCircle = [UIBezierPath bezierPathWithArcCenter:point.center
-                                                                   radius:self.buttonSizeInternal * kGGGestureInnerCircleRadiusScale
-                                                               startAngle:0
-                                                                 endAngle:2 * M_PI
-                                                                clockwise:YES];
+                                                                  radius:innerRadius
+                                                              startAngle:0
+                                                                endAngle:2 * M_PI
+                                                               clockwise:YES];
         [strokeColor setFill];
         [innerCircle fill];
     }
 }
 
-#pragma mark - 公共方法
+#pragma mark - 错误状态处理
 /**
- 获取当前输入的密码字符串
- @return 当前密码字符串（格式："1,2,3,6,9"），如果没有输入则返回nil
+ 设置错误状态并自动重置
  */
-- (NSString *)currentPassword {
-    return [self generatePasswordString];
-}
-
-/**
- 清除当前选中的密码状态，重置为初始状态
- */
-- (void)clearPassword {
-    for (GGGesturePoint *point in self.pointsArray) {
-        point.selected = NO;
-    }
-    [self.selectedPointsArray removeAllObjects];
-    [self resetTouchState];
-    self.inErrorState = NO;
-    self.userInteractionEnabled = YES;
-    self.allowsDrawingLine = YES;
-    
-    [self.resetTimer invalidate];
-    self.resetTimer = nil;
-    
-    [self setNeedsDisplay];
-}
-
-/**
- 显示错误状态的UI（将点和线显示为错误颜色）
- */
-- (void)showWrongPasswordUI {
+- (void)setErrorStateAndAutoReset {
     self.inErrorState = YES;
-    self.userInteractionEnabled = NO;
     [self setNeedsDisplay];
-}
-
-/**
- 显示错误状态UI并在默认时间后自动重置
- */
-- (void)showWrongPasswordUIAndAutoResetUI {
-    [self showWrongPasswordUIAndResetUIAfterSeconds:kGGGestureDefaultErrorResetDelay];
-}
-
-/**
- 显示错误状态UI并在默认时间后自动重置，带结束回调
- @param endBlock 重置完成后的回调
- */
-- (void)showWrongPasswordUIAndAutoResetUIWithEndBlock:(void (^)(void))endBlock {
-    [self showWrongPasswordUIAndResetUIAfterSeconds:kGGGestureDefaultErrorResetDelay endBlock:endBlock];
-}
-
-/**
- 显示错误状态UI并在指定时间后自动重置
- @param seconds 延迟时间（秒）
- */
-- (void)showWrongPasswordUIAndResetUIAfterSeconds:(CGFloat)seconds {
-    [self showWrongPasswordUIAndResetUIAfterSeconds:seconds endBlock:nil];
-}
-
-/**
- 显示错误状态UI并在指定时间后自动重置，带结束回调
- @param seconds 延迟时间（秒）
- @param endBlock 重置完成后的回调
- */
-- (void)showWrongPasswordUIAndResetUIAfterSeconds:(CGFloat)seconds endBlock:(void (^)(void))endBlock {
-    [self showWrongPasswordUI];
-    
-    if (seconds <= 0) return;
     
     [self.resetTimer invalidate];
-    
-    self.resetTimer = [NSTimer scheduledTimerWithTimeInterval:seconds
-                                                      repeats:NO
-                                                        block:^(NSTimer * _Nonnull timer) {
-        [self clearPassword];
-        if (endBlock) {
-            endBlock();
-        }
-    }];
+    self.resetTimer = [NSTimer scheduledTimerWithTimeInterval:kGGGestureDefaultErrorResetDelay
+                                                      target:self
+                                                    selector:@selector(clearPassword)
+                                                    userInfo:nil
+                                                     repeats:NO];
 }
 
-/**
- 根据密码字符串显示对应的手势轨迹
- @param password 手势密码字符串（支持两种格式：1.纯数字如@"12369" 2.英文逗号分隔如@"1,2,3,6,9"）
- */
-- (void)showGestureWithPassword:(NSString *)password {
-    // 确保布局完成后再显示手势
-    if (!self.hasCompletedInitialLayout) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [self showGestureWithPassword:password];
-        });
-        return;
-    }
-    
-    [self clearPassword];
-    
-    // 非空校验
-    if (!password) {
-        NSLog(@"%@ 传入的密码为nil，无法显示手势", kGGGestureLogPrefix);
-        return;
-    }
-    
-    NSString *trimmedPassword = [password stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-    if (trimmedPassword.length == 0) {
-        NSLog(@"%@ 传入的密码为空或仅包含空白字符，无法显示手势", kGGGestureLogPrefix);
-        return;
-    }
-    
-    // 解析密码
-    NSArray<NSString *> *tagStrings = [self parsePasswordString:trimmedPassword];
-    if (tagStrings.count == 0) {
-        NSLog(@"%@ 密码解析后没有有效点，无法显示手势", kGGGestureLogPrefix);
-        return;
-    }
-    
-    // 限制显示的点数不超过最大连接数
-    NSInteger maxDisplayCount = MIN(tagStrings.count, self.maxNodeCount);
-    NSArray<NSString *> *limitedTagStrings = [tagStrings subarrayWithRange:NSMakeRange(0, maxDisplayCount)];
-    
-    // 选中对应点
-    [self selectPointsWithTagStrings:limitedTagStrings];
-    
-    // 设置结束点
-    if (self.selectedPointsArray.count > 0) {
-        GGGesturePoint *lastPoint = self.selectedPointsArray.lastObject;
-        self.currentPoint = lastPoint.center;
-    }
-    
-    // 重绘
-    self.touching = NO;
-    [self setNeedsDisplay];
-}
-
-#pragma mark - 密码解析
-/**
- 解析密码字符串，支持两种格式：纯数字和逗号分隔
- @param password 要解析的密码字符串
- @return 解析后的点标签数组
- */
-- (NSArray<NSString *> *)parsePasswordString:(NSString *)password {
-    if ([password containsString:@","]) {
-        NSArray<NSString *> *components = [password componentsSeparatedByString:@","];
-        NSMutableArray<NSString *> *validComponents = [NSMutableArray array];
-        
-        for (NSString *component in components) {
-            NSString *trimmed = [component stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-            if (trimmed.length > 0) {
-                [validComponents addObject:trimmed];
-            } else {
-                NSLog(@"%@ 密码中包含空项，已忽略", kGGGestureLogPrefix);
-            }
-        }
-        
-        NSLog(@"%@ 解析逗号分隔格式密码，共 %lu 个有效项", kGGGestureLogPrefix, (unsigned long)validComponents.count);
-        return validComponents;
-    } else {
-        NSMutableArray<NSString *> *components = [NSMutableArray array];
-        for (NSInteger i = 0; i < password.length; i++) {
-            unichar charCode = [password characterAtIndex:i];
-            [components addObject:[NSString stringWithCharacters:&charCode length:1]];
-        }
-        
-        NSLog(@"%@ 解析纯数字格式密码，共 %lu 个项", kGGGestureLogPrefix, (unsigned long)components.count);
-        return components;
-    }
-}
-
-/**
- 根据标签字符串数组选中对应的手势点
- @param tagStrings 点标签字符串数组
- */
-- (void)selectPointsWithTagStrings:(NSArray<NSString *> *)tagStrings {
-    NSInteger validCount = 0;
-    
-    for (NSString *tagStr in tagStrings) {
-        NSInteger tag = [tagStr integerValue];
-        
-        // 验证范围
-        if (tag < 1 || tag > kGGGestureTotalPointsCount) {
-            NSLog(@"%@ 无效的点编号: %@ (必须在1-%ld之间)", kGGGestureLogPrefix, tagStr, (long)kGGGestureTotalPointsCount);
-            continue;
-        }
-        
-        // 查找并选中点
-        BOOL found = NO;
-        for (GGGesturePoint *point in self.pointsArray) {
-            if (point.tag == tag && !point.selected) {
-                point.selected = YES;
-                [self.selectedPointsArray addObject:point];
-                validCount++;
-                found = YES;
-                break;
-            }
-        }
-        
-        if (!found) {
-            NSLog(@"%@ 点 %ld 已被选中或不存在，已跳过", kGGGestureLogPrefix, (long)tag);
-        }
-    }
-    
-    NSLog(@"%@ 密码解析完成，有效点数量: %ld", kGGGestureLogPrefix, (long)validCount);
-}
-
-#pragma mark - 加载资源
-- (UIImage *)gg_imageNamed:(NSString *)imageName {
-    // 1. 获取组件的类所在的 bundle（即 pod 安装后的框架 bundle）
-    NSBundle *frameworkBundle = [NSBundle bundleForClass:[self class]];
-    
-    // 2. 从框架 bundle 中找到资源束（GGGesturePasswordView.bundle）
-    NSURL *resourceBundleURL = [frameworkBundle URLForResource:kGGGestureResourceBundleName
-                                                  withExtension:@"bundle"];
-    if (!resourceBundleURL) {
-        NSLog(@"%@ 未找到资源束 %@.bundle", kGGGestureLogPrefix, kGGGestureResourceBundleName);
-        return nil;
-    }
-    NSBundle *resourceBundle = [NSBundle bundleWithURL:resourceBundleURL];
-    
-    // 3. 从资源束中加载图片
-    // 注意：如果是 .xcassets 中的图片，直接传图片名（无需扩展名）
-    UIImage *image = [UIImage imageNamed:imageName
-                                 inBundle:resourceBundle
-            compatibleWithTraitCollection:nil];
-    
-    return image;
-}
-
-#pragma mark - Getters & Setters
-/**
- 公开的点大小属性（只读）
- @return 点的大小
- */
-- (CGFloat)buttonSize {
-    return self.buttonSizeInternal;
-}
-
-/**
- 获取正常状态下的按钮图片（懒加载）
- @return 正常状态图片
- */
-- (UIImage *)normalButtonImage {
-    if (!_normalButtonImage) {
-        _normalButtonImage = [self gg_imageNamed:kGGGestureNormalImageName];
-    }
-    return _normalButtonImage;
-}
-
-/**
- 获取选中状态下的按钮图片（懒加载）
- @return 选中状态图片
- */
-- (UIImage *)selectedButtonImage {
-    if (!_selectedButtonImage) {
-        _selectedButtonImage = [self gg_imageNamed:kGGGestureSelectedImageName];
-    }
-    return _selectedButtonImage;
-}
-
-/**
- 获取错误状态下的按钮图片（懒加载）
- @return 错误状态图片
- */
-- (UIImage *)disableButtonImage {
-    if (!_disableButtonImage) {
-        _disableButtonImage = [self gg_imageNamed:kGGGestureErrorImageName];
-    }
-    return _disableButtonImage;
-}
-
-/**
- 设置点之间的间距（重写setter以更新布局）
- @param buttonSpacing 新的间距值
- */
-- (void)setButtonSpacing:(CGFloat)buttonSpacing {
-    if (_buttonSpacing != buttonSpacing) {
-        _buttonSpacing = buttonSpacing;
-        [self setNeedsLayout];
-    }
-}
-
-/**
- 设置边距（重写setter以更新布局）
- @param padding 新的边距值
- */
-- (void)setPadding:(UIEdgeInsets)padding {
-    if (!UIEdgeInsetsEqualToEdgeInsets(_padding, padding)) {
-        _padding = padding;
-        [self setNeedsLayout];
-    }
-}
-
-/**
- 设置线宽（重写setter以更新绘制）
- @param lineWidth 新的线宽值
- */
-- (void)setLineWidth:(CGFloat)lineWidth {
-    if (_lineWidth != lineWidth) {
-        _lineWidth = lineWidth;
-        [self setNeedsDisplay];
-    }
-}
-
-/**
- 设置是否允许绘制线条（重写setter以更新绘制）
- @param allowsDrawingLine 是否允许绘制
- */
-- (void)setAllowsDrawingLine:(BOOL)allowsDrawingLine {
-    if (_allowsDrawingLine != allowsDrawingLine) {
-        _allowsDrawingLine = allowsDrawingLine;
-        [self setNeedsDisplay];
-    }
-}
-
-/**
- 设置最大连接点数量（重写setter以限制范围）
- @param maxNodeCount 最大连接点数量
- */
-- (void)setMaxNodeCount:(NSInteger)maxNodeCount {
-    // 确保最大连接数在有效范围内（1-9）
-    NSInteger clampedValue = MAX(1, MIN(maxNodeCount, kGGGestureTotalPointsCount));
-    if (_maxNodeCount != clampedValue) {
-        _maxNodeCount = clampedValue;
-        // 如果当前选中点数超过新的最大值，截断并更新UI
-        if (self.selectedPointsArray.count > _maxNodeCount) {
-            NSRange range = NSMakeRange(_maxNodeCount, self.selectedPointsArray.count - _maxNodeCount);
-            NSArray<GGGesturePoint *> *pointsToDeselect = [self.selectedPointsArray subarrayWithRange:range];
-            for (GGGesturePoint *point in pointsToDeselect) {
-                point.selected = NO;
-            }
-            [self.selectedPointsArray removeObjectsInRange:range];
-            [self setNeedsDisplay];
-        }
-    }
-}
-
-#pragma mark - 内存管理
+#pragma mark - 销毁
 - (void)dealloc {
-    [self.resetTimer invalidate];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [self.resetTimer invalidate];
 }
 
 @end

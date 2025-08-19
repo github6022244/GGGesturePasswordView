@@ -88,6 +88,7 @@
         @{@"title": @"5. 错误状态演示", @"vcClass": @"GGErrorStateViewController"},
         @{@"title": @"5. 自动布局演示", @"vcClass": @"GGGestureAutoLayoutInitTestViewController"},
         @{@"title": @"5. 适配横竖屏演示", @"vcClass": @"GGGestureOrientationAdaptTestViewController"},
+        @{@"title": @"6. 路径与按钮状态演示", @"vcClass": @"GGGesturePathSelectionTestViewController"},
     ];
 }
 

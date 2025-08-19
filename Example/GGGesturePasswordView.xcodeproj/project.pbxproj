@@ -10,6 +10,7 @@
 		1876F9BB16399310ABC312CF /* Pods_GGGesturePasswordView_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0C9930B002412667A959318 /* Pods_GGGesturePasswordView_Tests.framework */; };
 		53CD04B52E54120300844E42 /* GGGestureAutoLayoutInitTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 53CD04B42E54120300844E42 /* GGGestureAutoLayoutInitTestViewController.m */; };
 		53CD04B82E54123E00844E42 /* GGGestureOrientationAdaptTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 53CD04B72E54123E00844E42 /* GGGestureOrientationAdaptTestViewController.m */; };
+		53CD04BE2E545FCD00844E42 /* GGGesturePathSelectionTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 53CD04BD2E545FCD00844E42 /* GGGesturePathSelectionTestViewController.m */; };
 		53DD41612E45D89E007FE348 /* GGCustomStyleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 53DD41562E45D89E007FE348 /* GGCustomStyleViewController.m */; };
 		53DD41622E45D89E007FE348 /* GGFunctionListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 53DD415A2E45D89E007FE348 /* GGFunctionListViewController.m */; };
 		53DD41632E45D89E007FE348 /* GGShowGestureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 53DD415E2E45D89E007FE348 /* GGShowGestureViewController.m */; };
@@ -57,6 +58,8 @@
 		53CD04B42E54120300844E42 /* GGGestureAutoLayoutInitTestViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GGGestureAutoLayoutInitTestViewController.m; sourceTree = "<group>"; };
 		53CD04B62E54123E00844E42 /* GGGestureOrientationAdaptTestViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GGGestureOrientationAdaptTestViewController.h; sourceTree = "<group>"; };
 		53CD04B72E54123E00844E42 /* GGGestureOrientationAdaptTestViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GGGestureOrientationAdaptTestViewController.m; sourceTree = "<group>"; };
+		53CD04BC2E545FCD00844E42 /* GGGesturePathSelectionTestViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GGGesturePathSelectionTestViewController.h; sourceTree = "<group>"; };
+		53CD04BD2E545FCD00844E42 /* GGGesturePathSelectionTestViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GGGesturePathSelectionTestViewController.m; sourceTree = "<group>"; };
 		53DD41532E45D89E007FE348 /* GGBaseDemoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GGBaseDemoViewController.h; sourceTree = "<group>"; };
 		53DD41542E45D89E007FE348 /* GGBaseDemoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GGBaseDemoViewController.m; sourceTree = "<group>"; };
 		53DD41552E45D89E007FE348 /* GGCustomStyleViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GGCustomStyleViewController.h; sourceTree = "<group>"; };
@@ -183,6 +186,8 @@
 				53CD04B42E54120300844E42 /* GGGestureAutoLayoutInitTestViewController.m */,
 				53CD04B62E54123E00844E42 /* GGGestureOrientationAdaptTestViewController.h */,
 				53CD04B72E54123E00844E42 /* GGGestureOrientationAdaptTestViewController.m */,
+				53CD04BC2E545FCD00844E42 /* GGGesturePathSelectionTestViewController.h */,
+				53CD04BD2E545FCD00844E42 /* GGGesturePathSelectionTestViewController.m */,
 				71719F9D1E33DC2100824A3D /* LaunchScreen.storyboard */,
 				6003F5A8195388D20070C39A /* Images.xcassets */,
 				6003F594195388D20070C39A /* Supporting Files */,
@@ -429,6 +434,7 @@
 				53DD416D2E45E795007FE348 /* NSUserDefaults+GGGesture.m in Sources */,
 				53CD04B52E54120300844E42 /* GGGestureAutoLayoutInitTestViewController.m in Sources */,
 				53DD41662E45D89E007FE348 /* GGBaseDemoViewController.m in Sources */,
+				53CD04BE2E545FCD00844E42 /* GGGesturePathSelectionTestViewController.m in Sources */,
 				53DD41672E45D89E007FE348 /* GGErrorStateViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

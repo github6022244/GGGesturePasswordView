@@ -7,6 +7,12 @@
  */
 @interface GGGesturePasswordView : UIView
 
+/// 控制是否自动选中路径经过的点（即使未直接触摸，默认NO）
+@property (nonatomic, assign) BOOL shouldSelectPointsOnPath;
+
+/// 按钮起始下标（默认1，可设置为0）
+@property (nonatomic, assign) NSInteger startTag;
+
 /** 正常状态下的线条颜色 */
 @property (nonatomic, strong) UIColor *normalLineColor;
 
