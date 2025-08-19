@@ -54,7 +54,7 @@
 - (void)setupGestureTestView {
     self.gestureTestView = [[GGGesturePasswordView alloc] init];
     self.gestureTestView.translatesAutoresizingMaskIntoConstraints = NO;
-    self.gestureTestView.buttonSpacing = 35.f;
+    self.gestureTestView.buttonSpacing = 70.f;
     self.gestureTestView.delegate = self;
     self.gestureTestView.shouldSelectPointsOnPath = YES; // 默认启用路径选点
     self.gestureTestView.maxNodeCount = 9; // 允许最大选点数量

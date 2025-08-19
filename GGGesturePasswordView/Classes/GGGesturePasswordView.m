@@ -55,30 +55,6 @@ static NSString *const kGGGestureErrorImageName = @"gesture_node_error";
 
 @implementation GGGesturePasswordView
 
-#pragma mark - 公共属性
-@synthesize shouldSelectPointsOnPath = _shouldSelectPointsOnPath;
-@synthesize startTag = _startTag;
-
-- (void)setShouldSelectPointsOnPath:(BOOL)shouldSelectPointsOnPath {
-    _shouldSelectPointsOnPath = shouldSelectPointsOnPath;
-}
-
-- (BOOL)shouldSelectPointsOnPath {
-    return _shouldSelectPointsOnPath;
-}
-
-- (void)setStartTag:(NSInteger)startTag {
-    if (_startTag != startTag) {
-        _startTag = startTag;
-        [self setupPoints]; // 重新设置点的tag
-        [self setNeedsDisplay];
-    }
-}
-
-- (NSInteger)startTag {
-    return _startTag ?: 1; // 默认起始值为1
-}
-
 #pragma mark - 初始化方法
 - (instancetype)init {
     self = [super init];
@@ -349,10 +325,28 @@ static NSString *const kGGGestureErrorImageName = @"gesture_node_error";
         }
     }
     
-    // 2. 若开启路径选点，检测路径经过的点
+    // 2. 若开启路径选点，检测路径经过的圆形区域（核心修改：判断线段与圆形相交）
     if (self.shouldSelectPointsOnPath && self.selectedPointsArray.count > 0) {
         GGGesturePoint *lastSelectedPoint = self.selectedPointsArray.lastObject;
-        [self detectAndSelectPointsOnPathFrom:lastSelectedPoint.center to:point];
+        CGPoint start = lastSelectedPoint.center;
+        CGPoint end = point;
+        
+        // 计算点的检测半径（与原逻辑一致）
+        CGFloat circleRadius = self.buttonSizeInternal / 2.0f * kGGGesturePointDetectionRadiusScale;
+        
+        // 遍历未选中的点，判断线段是否与该点的圆形区域相交
+        for (GGGesturePoint *pointModel in self.pointsArray) {
+            if (pointModel.selected) continue; // 跳过已选中的点
+            
+            // 检查线段（start到end）是否与当前点的圆形区域相交
+            BOOL isIntersect = [self isLineSegmentFrom:start to:end intersectingCircleWithCenter:pointModel.center radius:circleRadius];
+            
+            // 若相交且未达最大选点数量，选中该点
+            if (isIntersect && self.selectedPointsArray.count < self.maxNodeCount) {
+                [self selectPoint:pointModel];
+                break; // 一次只选中一个点，避免快速移动时多选
+            }
+        }
     }
     
     [self setNeedsDisplay];
@@ -399,25 +393,41 @@ static NSString *const kGGGestureErrorImageName = @"gesture_node_error";
 
 #pragma mark - 路径选点逻辑
 /**
- 检测并选中路径经过的点
+ 判断线段是否与圆形区域相交
+ @param start 线段起点
+ @param end 线段终点
+ @param center 圆心
+ @param radius 半径
+ @return 是否相交
  */
-- (void)detectAndSelectPointsOnPathFrom:(CGPoint)start to:(CGPoint)end {
-    // 遍历所有未选中的点，判断是否在start到end的路径上
-    for (GGGesturePoint *point in self.pointsArray) {
-        if (point.selected) continue; // 跳过已选中的点
-        
-        // 计算点到线段（start到end）的距离
-        CGFloat distance = [self distanceFromPoint:point.center toLineSegmentStart:start end:end];
-        
-        // 若距离小于阈值，且点在线段的「合理范围内」（避免误判线段延长线上的点）
-        if (distance <= kGGGesturePathDetectionThreshold &&
-            [self isPoint:point.center onLineSegmentBetween:start and:end]) {
-            
-            [self selectPoint:point];
-            // 若已达最大选点数量，停止检测
-            if (self.selectedPointsArray.count >= self.maxNodeCount) break;
-        }
+- (BOOL)isLineSegmentFrom:(CGPoint)start to:(CGPoint)end intersectingCircleWithCenter:(CGPoint)center radius:(CGFloat)radius {
+    // 向量计算：线段起点到圆心
+    CGFloat dx = center.x - start.x;
+    CGFloat dy = center.y - start.y;
+    // 线段向量
+    CGFloat segmentDx = end.x - start.x;
+    CGFloat segmentDy = end.y - start.y;
+    
+    // 线段长度的平方
+    CGFloat segmentLenSq = segmentDx * segmentDx + segmentDy * segmentDy;
+    if (segmentLenSq == 0) {
+        // 线段长度为0（起点终点重合），直接判断点是否在圆内
+        return (dx * dx + dy * dy) <= radius * radius;
     }
+    
+    // 计算投影比例 t（线段上离圆心最近的点的参数）
+    CGFloat t = (dx * segmentDx + dy * segmentDy) / segmentLenSq;
+    t = MAX(0, MIN(1, t)); // 限制 t 在 [0,1] 范围内（线段上的点）
+    
+    // 线段上离圆心最近的点
+    CGFloat closestX = start.x + t * segmentDx;
+    CGFloat closestY = start.y + t * segmentDy;
+    
+    // 计算最近点到圆心的距离平方
+    CGFloat distanceSq = (center.x - closestX) * (center.x - closestX) + (center.y - closestY) * (center.y - closestY);
+    
+    // 距离小于等于半径则相交
+    return distanceSq <= radius * radius;
 }
 
 /**
@@ -432,42 +442,6 @@ static NSString *const kGGGestureErrorImageName = @"gesture_node_error";
             [self touchesEnded:nil withEvent:nil];
         });
     }
-}
-
-/**
- 几何计算：点到线段的距离
- */
-- (CGFloat)distanceFromPoint:(CGPoint)p toLineSegmentStart:(CGPoint)a end:(CGPoint)b {
-    CGFloat abX = b.x - a.x;
-    CGFloat abY = b.y - a.y;
-    CGFloat apX = p.x - a.x;
-    CGFloat apY = p.y - a.y;
-    
-    // 计算向量点积
-    CGFloat dot = apX * abX + apY * abY;
-    if (dot <= 0) return hypot(apX, apY); // 点在a的外侧，距离为p到a
-    
-    CGFloat abLen2 = abX * abX + abY * abY;
-    if (dot >= abLen2) return hypot(p.x - b.x, p.y - b.y); // 点在b的外侧，距离为p到b
-    
-    // 点在线段上的投影
-    CGFloat t = dot / abLen2;
-    CGFloat projX = a.x + t * abX;
-    CGFloat projY = a.y + t * abY;
-    return hypot(p.x - projX, p.y - projY);
-}
-
-/**
- 几何计算：判断点是否在线段的两个端点之间（避免延长线误判）
- */
-- (BOOL)isPoint:(CGPoint)p onLineSegmentBetween:(CGPoint)a and:(CGPoint)b {
-    // 检查x坐标范围
-    BOOL isXBetween = (p.x >= MIN(a.x, b.x) - kGGGesturePathDetectionThreshold) &&
-                      (p.x <= MAX(a.x, b.x) + kGGGesturePathDetectionThreshold);
-    // 检查y坐标范围
-    BOOL isYBetween = (p.y >= MIN(a.y, b.y) - kGGGesturePathDetectionThreshold) &&
-                      (p.y <= MAX(a.y, b.y) + kGGGesturePathDetectionThreshold);
-    return isXBetween && isYBetween;
 }
 
 #pragma mark - 状态管理
@@ -761,6 +735,123 @@ static NSString *const kGGGestureErrorImageName = @"gesture_node_error";
                                                     selector:@selector(clearPassword)
                                                     userInfo:nil
                                                      repeats:NO];
+}
+
+#pragma mark - 公共方法
+
+/**
+ 获取当前输入的密码字符串
+ @return 当前密码字符串（格式："1,2,3,6,9"），如果没有输入则返回nil
+ */
+- (NSString *)currentPassword {
+    return [self generatePasswordString];
+}
+
+/**
+ 显示错误状态的UI（将点和线显示为错误颜色）
+ */
+- (void)showWrongPasswordUI {
+    self.inErrorState = YES;
+    [self setNeedsDisplay];
+}
+
+/**
+ 显示错误状态UI并在默认时间后自动重置
+ */
+- (void)showWrongPasswordUIAndAutoResetUI {
+    [self showWrongPasswordUIAndResetUIAfterSeconds:kGGGestureDefaultErrorResetDelay];
+}
+
+/**
+ 显示错误状态UI并在默认时间后自动重置，带结束回调
+ @param endBlock 重置完成后的回调
+ */
+- (void)showWrongPasswordUIAndAutoResetUIWithEndBlock:(void (^)(void))endBlock {
+    [self showWrongPasswordUIAndResetUIAfterSeconds:kGGGestureDefaultErrorResetDelay endBlock:endBlock];
+}
+
+/**
+ 显示错误状态UI并在指定时间后自动重置
+ @param seconds 延迟时间（秒）
+ */
+- (void)showWrongPasswordUIAndResetUIAfterSeconds:(CGFloat)seconds {
+    [self showWrongPasswordUIAndResetUIAfterSeconds:seconds endBlock:nil];
+}
+
+/**
+ 显示错误状态UI并在指定时间后自动重置，带结束回调
+ @param seconds 延迟时间（秒）
+ @param endBlock 重置完成后的回调
+ */
+- (void)showWrongPasswordUIAndResetUIAfterSeconds:(CGFloat)seconds endBlock:(void (^)(void))endBlock {
+    // 先停止之前的计时器
+    [self.resetTimer invalidate];
+    
+    // 显示错误状态
+    [self showWrongPasswordUI];
+    
+    // 创建新计时器
+    __weak typeof(self) weakSelf = self;
+    self.resetTimer = [NSTimer scheduledTimerWithTimeInterval:seconds repeats:NO block:^(NSTimer * _Nonnull timer) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        if (strongSelf) {
+            [strongSelf clearPassword];
+            if (endBlock) {
+                endBlock();
+            }
+        }
+    }];
+}
+
+/**
+ 根据密码字符串显示对应的手势轨迹
+ @param password 手势密码字符串（支持两种格式：1.纯数字如@"12369" 2.英文逗号分隔如@"1,2,3,6,9"）
+ */
+- (void)showGestureWithPassword:(NSString *)password {
+    if (!password || password.length == 0) {
+        [self clearPassword];
+        return;
+    }
+    
+    // 清除现有状态
+    [self clearPassword];
+    
+    // 统一格式：移除逗号，转为纯数字字符串
+    NSString *normalizedPassword = [password stringByReplacingOccurrencesOfString:@"," withString:@""];
+    
+    // 解析每个数字作为点的tag
+    for (NSInteger i = 0; i < normalizedPassword.length; i++) {
+        unichar charCode = [normalizedPassword characterAtIndex:i];
+        NSString *tagStr = [NSString stringWithCharacters:&charCode length:1];
+        NSInteger tag = [tagStr integerValue];
+        
+        // 查找对应tag的点
+        for (GGGesturePoint *point in self.pointsArray) {
+            if (point.tag == tag && !point.selected) {
+                point.selected = YES;
+                [self.selectedPointsArray addObject:point];
+                break;
+            }
+        }
+    }
+    
+    // 更新当前点为最后一个选中点的中心
+    if (self.selectedPointsArray.count > 0) {
+        GGGesturePoint *lastPoint = self.selectedPointsArray.lastObject;
+        self.currentPoint = lastPoint.center;
+    }
+    
+    // 触发重绘
+    [self setNeedsDisplay];
+}
+
+#pragma mark - Set get
+- (void)setStartTag:(NSInteger)startTag {
+    if (_startTag != startTag) {
+        _startTag = startTag;
+        [self setupPoints]; // 重新设置点的tag
+        [self setNeedsDisplay];
+    }
 }
 
 #pragma mark - 销毁
