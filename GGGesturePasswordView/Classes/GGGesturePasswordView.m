@@ -465,6 +465,7 @@ static NSString *const kGGGestureErrorImageName = @"gesture_node_error";
     [self.resetTimer invalidate];
     self.resetTimer = nil;
     [self resetTouchState];
+    self.allowsDrawingLine = YES;
     [self setNeedsDisplay];
 }
 
