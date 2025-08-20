@@ -1,13 +1,27 @@
 use_frameworks!
 
-platform :ios, '10.0'
+platform :ios, '13.0'
 
 target 'GGGesturePasswordView_Example' do
   pod 'GGGesturePasswordView', :path => '../'
+  pod 'Masonry'
 
   target 'GGGesturePasswordView_Tests' do
     inherit! :search_paths
 
     
+  end
+end
+
+
+
+post_install do |installer|
+  installer.generated_projects.each do |project|
+    project.targets.each do |target|
+      target.build_configurations.each do |config|
+        # 设置最低部署版本为 iOS 13.0
+        config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '13.0'
+      end
+    end
   end
 end

@@ -89,6 +89,7 @@
         @{@"title": @"5. 自动布局演示", @"vcClass": @"GGGestureAutoLayoutInitTestViewController"},
         @{@"title": @"5. 适配横竖屏演示", @"vcClass": @"GGGestureOrientationAdaptTestViewController"},
         @{@"title": @"6. 路径与按钮状态演示", @"vcClass": @"GGGesturePathSelectionTestViewController"},
+        @{@"title": @"7. 自动布局后显示密码测试", @"vcClass": @"GGGesturePasswordLayoutTestViewController"},
     ];
 }
 

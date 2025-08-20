@@ -1,16 +1,23 @@
 PODS:
-  - GGGesturePasswordView (0.1.2)
+  - GGGesturePasswordView (0.1.5)
+  - Masonry (1.1.0)
 
 DEPENDENCIES:
   - GGGesturePasswordView (from `../`)
+  - Masonry
+
+SPEC REPOS:
+  trunk:
+    - Masonry
 
 EXTERNAL SOURCES:
   GGGesturePasswordView:
     :path: "../"
 
 SPEC CHECKSUMS:
-  GGGesturePasswordView: 3a6208705270183b8fb4b5c5b81a6d55dc0c1cad
+  GGGesturePasswordView: 553e0b381258359cc45632ef1e48d86405c3fea3
+  Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
 
-PODFILE CHECKSUM: 6834d839c52aaaf89dbc4223f041b27871a5fe59
+PODFILE CHECKSUM: 0e3c913fb448ff0f58c27bc289faaf1cff38e623
 
 COCOAPODS: 1.16.2

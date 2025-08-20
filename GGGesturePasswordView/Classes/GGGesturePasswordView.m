@@ -50,6 +50,8 @@ static NSString *const kGGGestureErrorImageName = @"gesture_node_error";
 @property (nonatomic, assign) BOOL hasValidStartPoint;
 /** 是否已经完成初始布局 */
 @property (nonatomic, assign) BOOL hasCompletedInitialLayout;
+/** 新增属性用于存储需要延迟执行的密码显示任务 */
+@property (nonatomic, copy) NSString *pendingPassword;
 
 @end
 
@@ -233,22 +235,24 @@ static NSString *const kGGGestureErrorImageName = @"gesture_node_error";
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    // 只有当视图有实际大小时才设置点
     if (CGRectGetWidth(self.bounds) > 0 && CGRectGetHeight(self.bounds) > 0) {
-        // 保存当前选中的点标签
         NSArray *selectedTags = [self.selectedPointsArray valueForKeyPath:@"tag"];
-        
         [self setupPoints];
         
-        // 恢复选中状态
         if (selectedTags.count > 0) {
             [self restoreSelectedStateWithTags:selectedTags];
         }
         
         self.hasCompletedInitialLayout = YES;
+        
+        // 布局完成后，如果有等待执行的密码显示任务，则执行
+        if (self.pendingPassword.length > 0) {
+            [self _actuallyShowGestureWithPassword:self.pendingPassword];
+            self.pendingPassword = nil; // 清空任务
+        }
     }
     
-    [self setNeedsDisplay];  // 触发重绘
+    [self setNeedsDisplay];
 }
 
 #pragma mark - 视图生命周期
@@ -809,6 +813,19 @@ static NSString *const kGGGestureErrorImageName = @"gesture_node_error";
  @param password 手势密码字符串（支持两种格式：1.纯数字如@"12369" 2.英文逗号分隔如@"1,2,3,6,9"）
  */
 - (void)showGestureWithPassword:(NSString *)password {
+    // 强制更新布局（针对动态修改约束的场景）
+    [self layoutIfNeeded];
+    
+    if (self.hasCompletedInitialLayout && self.buttonSizeInternal > 0) {
+        [self _actuallyShowGestureWithPassword:password];
+    } else {
+        self.pendingPassword = password;
+        [self setNeedsLayout];
+    }
+}
+
+#pragma mark - 私有方法
+- (void)_actuallyShowGestureWithPassword:(NSString *)password {
     if (!password || password.length == 0) {
         [self clearPassword];
         return;
